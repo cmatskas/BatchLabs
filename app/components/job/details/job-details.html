@@ -3,7 +3,7 @@
         <md-card class="overview">
             <md-card-title-group style="margin: 0px;">
                 <!--<div style="align-items:center;">
-                    <bex-refresh-btn [refresh]="refresh"></bex-refresh-btn>
+                    <bl-refresh-btn [refresh]="refresh"></bl-refresh-btn>
                 </div>-->
                 <!--<div style="margin-left:12px; margin-right:auto;">-->
                 <div style="margin-left:0px; margin-right:auto;">
@@ -38,34 +38,34 @@
                 </button><button md-raised-button class="" style="font-weight:400;padding:0 30">
                     <i class="fa fa-cog"></i> <i class="fa fa-caret-down"></i>
                 </button>
-                <!--<bex-add-task-button title="Add task" [job]="job" (click)="addTask()"></bex-add-task-button>
-                <bex-terminate-button [entity]="job" (click)="terminateJob()"></bex-terminate-button>
-                <bex-delete-button [entity]="job" (click)="deleteJob()"></bex-delete-button>
-                <bex-disable-button [job]="job" (click)="disableJob()"></bex-disable-button>
-                <bex-enable-button [job]="job" (click)="enableJob()"></bex-enable-button>
-                <bex-clone-button (click)="cloneJob()"></bex-clone-button>-->
+                <!--<bl-add-task-button title="Add task" [job]="job" (click)="addTask()"></bl-add-task-button>
+                <bl-terminate-button [entity]="job" (click)="terminateJob()"></bl-terminate-button>
+                <bl-delete-button [entity]="job" (click)="deleteJob()"></bl-delete-button>
+                <bl-disable-button [job]="job" (click)="disableJob()"></bl-disable-button>
+                <bl-enable-button [job]="job" (click)="enableJob()"></bl-enable-button>
+                <bl-clone-button (click)="cloneJob()"></bl-clone-button>-->
             </md-card-actions>
         </md-card>
         <bl-job-error-display [job]="job"></bl-job-error-display>
         <md-card class="details">
-            <bex-tab-group>
-                <bex-tab key="tasks">
-                    <bex-tab-label>Tasks</bex-tab-label>
-                    <bex-entity-details-list #listWrapper [refresh]="list.refresh" [baseLink]="['/jobs', job.id, 'tasks']" [loadMore]="list.loadMore" [filterPlaceholder]="filterPlaceholderText">
-                        <bex-task-list [jobId]="job.id" [filter]="listWrapper.filter" [quickList]="false" #list [manualLoading]="true"></bex-task-list>
-                    </bex-entity-details-list>
-                </bex-tab>
-                <bex-tab key="configuration">
-                    <bex-tab-label>Configuration</bex-tab-label>
-                    <bex-job-properties [job]="job"></bex-job-properties>
+            <bl-tab-group>
+                <bl-tab key="tasks">
+                    <bl-tab-label>Tasks</bl-tab-label>
+                    <bl-entity-details-list #listWrapper [refresh]="list.refresh" [baseLink]="['/jobs', job.id, 'tasks']" [loadMore]="list.loadMore" [filterPlaceholder]="filterPlaceholderText">
+                        <bl-task-list [jobId]="job.id" [filter]="listWrapper.filter" [quickList]="false" #list [manualLoading]="true"></bl-task-list>
+                    </bl-entity-details-list>
+                </bl-tab>
+                <bl-tab key="configuration">
+                    <bl-tab-label>Configuration</bl-tab-label>
+                    <bl-job-properties [job]="job"></bl-job-properties>
                     <div>
-                        <bex-job-environment-settings [job]="job"></bex-job-environment-settings>
+                        <bl-job-environment-settings [job]="job"></bl-job-environment-settings>
                     </div>
                     <div>
-                        <bex-job-metadata [job]="job"></bex-job-metadata>
+                        <bl-job-metadata [job]="job"></bl-job-metadata>
                     </div>
-                </bex-tab>
-            </bex-tab-group>
+                </bl-tab>
+            </bl-tab-group>
         </md-card>
     </div>
 </bl-loading>

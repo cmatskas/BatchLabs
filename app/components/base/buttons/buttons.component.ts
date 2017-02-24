@@ -182,7 +182,7 @@ export class DownloadButtonComponent {
 }
 
 @Component({
-    selector: "bex-resize-button",
+    selector: "bl-resize-button",
     template: `<button md-button class="md-primary md-button-focus"><i *ngIf="!hideIcon" class="fa fa-arrows-v blue"></i> Resize</button>`,
 })
 export class ResizeButtonComponent {
