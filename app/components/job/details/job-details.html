@@ -1,4 +1,4 @@
-<bex-loading [status]="data.newDataStatus | async">
+<bl-loading [status]="data.newDataStatus | async">
     <div *ngIf="job">
         <md-card class="overview">
             <md-card-title-group style="margin: 0px;">
@@ -46,7 +46,7 @@
                 <bex-clone-button (click)="cloneJob()"></bex-clone-button>-->
             </md-card-actions>
         </md-card>
-        <bex-job-error-display [job]="job"></bex-job-error-display>
+        <bl-job-error-display [job]="job"></bl-job-error-display>
         <md-card class="details">
             <bex-tab-group>
                 <bex-tab key="tasks">
@@ -68,4 +68,4 @@
             </bex-tab-group>
         </md-card>
     </div>
-</bex-loading>
+</bl-loading>

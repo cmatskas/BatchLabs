@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from "@angular/core";
 import { MdDialogRef } from "@angular/material";
 import { autobind } from "core-decorators";
 
@@ -7,16 +7,24 @@ import { PoolService } from "app/services";
 import { DeletePoolTask } from "./delete-pool-task";
 
 @Component({
-    selector: "bex-delete-pool-dialog",
+    selector: "bl-delete-pool-dialog",
     templateUrl: "delete-pool-dialog.html",
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeletePoolDialogComponent {
-    public poolId: string;
+    public set poolId(poolId: string) {
+        this._poolId = poolId;
+        this.changeDetector.detectChanges();
+    }
+    public get poolId() { return this._poolId; };
+
+    private _poolId: string;
 
     constructor(
         public dialogRef: MdDialogRef<DeletePoolDialogComponent>,
         private poolService: PoolService,
-        private taskManager: BackgroundTaskManager) {
+        private taskManager: BackgroundTaskManager,
+        private changeDetector: ChangeDetectorRef) {
     }
 
     @autobind()
