@@ -183,9 +183,27 @@ export class DownloadButtonComponent {
 
 @Component({
     selector: "bex-resize-button",
-    template: `<button md-button><i class="fa fa-arrows-v"></i> Resize</button>`,
+    template: `<button md-button class="md-primary md-button-focus"><i *ngIf="!hideIcon" class="fa fa-arrows-v blue"></i> Resize</button>`,
 })
 export class ResizeButtonComponent {
+    @Input()
+    public set hideIcon(value: boolean) {
+        this._hideIcon = value;
+    }
+    public get hideIcon() {
+        return this._hideIcon;
+    }
+
+    @Input()
+    public set usePrimaryColor(value: boolean) {
+        this._usePrimaryColor = value;
+    }
+    public get usePrimaryColor() {
+        return this._usePrimaryColor;
+    }
+
+    private _usePrimaryColor: boolean;
+    private _hideIcon: boolean;
 }
 
 @Component({
