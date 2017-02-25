@@ -8,16 +8,12 @@ import { TaskBrowseModule } from "app/components/task/browse";
 import { JobErrorDisplayComponent } from "./error-display";
 import { JobDetailsHomeComponent } from "./job-details-home.component";
 import { JobDetailsComponent } from "./job-details.component";
-import { JobEnvironmentSettingsComponent } from "./job-env-settings.component";
-import { JobMetadataComponent } from "./job-metadata.component";
 import { JobPropertiesComponent } from "./job-properties.component";
 
 const components = [
     JobErrorDisplayComponent,
     JobDetailsHomeComponent,
     JobDetailsComponent,
-    JobEnvironmentSettingsComponent,
-    JobMetadataComponent,
     JobPropertiesComponent,
 ];
 

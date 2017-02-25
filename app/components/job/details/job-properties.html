@@ -98,4 +98,32 @@
             </bl-table-property-row>
         </bl-table-property>
     </bl-property-group>
+
+    <bl-property-group label="Environment settings" class="wide" [collapsed]="true">
+        <bl-table-property *ngIf="environmentSettings" label="Settings">
+            <bl-table-property-header>
+                <div tp-column>Key</div>
+                <div tp-column>Value</div>
+            </bl-table-property-header>
+            <bl-table-property-row *ngFor="let setting of environmentSettings">
+                <bl-tp-cell [value]="setting.key"></bl-tp-cell>
+                <bl-tp-cell [value]="setting.value"></bl-tp-cell>
+            </bl-table-property-row>
+        </bl-table-property>
+        <span *ngIf="!environmentSettings" no-filter>This job contains no environment settings</span>
+    </bl-property-group>
+
+    <bl-property-group label="Metadata" class="wide" [collapsed]="true">
+        <bl-table-property *ngIf="jobMetadata" label="Item">
+            <bl-table-property-header>
+                <div tp-column>Name</div>
+                <div tp-column>Value</div>
+            </bl-table-property-header>
+            <bl-table-property-row *ngFor="let metaItem of jobMetadata">
+                <bl-tp-cell [value]="metaItem.name"></bl-tp-cell>
+                <bl-tp-cell [value]="metaItem.value"></bl-tp-cell>
+            </bl-table-property-row>
+        </bl-table-property>
+        <span *ngIf="!jobMetadata" no-filter>This job contains no metadata</span>
+    </bl-property-group>
 </bl-property-list>
