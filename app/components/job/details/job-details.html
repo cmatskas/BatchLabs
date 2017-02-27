@@ -2,9 +2,9 @@
     <div *ngIf="job">
         <md-card class="overview">
             <md-card-title-group style="margin: 0px;">
-                <!--<div style="align-items:center;">
+                <div style="align-items:center;">
                     <bl-refresh-btn [refresh]="refresh"></bl-refresh-btn>
-                </div>-->
+                </div>
                 <!--<div style="margin-left:12px; margin-right:auto;">-->
                 <div style="margin-left:0px; margin-right:auto;">
                     <md-card-title>{{decorator.id}}</md-card-title>
@@ -20,24 +20,36 @@
                     style="display: inline-flex">
                     <md-progress-bar
                         style="width:320px;margin: auto 8 auto 0"
-
-                        [value]=35
-                        [bufferValue]=100>
+                        mode="buffer"
+                        [value]=completedTasksPercent
+                        [bufferValue]=runningTasksPercent>
                     </md-progress-bar>
-                    <i class="fa fa-circle-o" style="margin: 0 4"></i> 50 Active
-                    <i class="fa fa-circle" style="margin: 0 4"></i> 3 Running
-                    <i class="fa fa-check-circle" style="margin: 0 4"></i> 10 Completed
+                    <i class="fa fa-dot-circle-o" style="margin: 0 4"></i> {{activeTasks}} Active
+                    <i class="fa fa-circle" style="margin: 0 4"></i> {{runningTasks}} Running
+                    <i class="fa fa-check-circle" style="margin: 0 4"></i> {{completedTasks}} Completed
                 </div>
             </md-card-content>
             <md-card-actions layout="row" layout-align="end center">
-                <button md-raised-button class="primary md-primary" style="font-weight:400;padding:0 30">
+                <button md-raised-button class="primary md-primary" style="font-weight:400;padding:0 30"
+                    (click)="resizePool()">
                     Scale pool
                 </button>
-                <button md-raised-button class="" style="font-weight:400">
+                <button md-raised-button [mdMenuTriggerFor]="stopMenu" style="font-weight:400">
                     Stop <i class="fa fa-caret-down"></i>
-                </button><button md-raised-button class="" style="font-weight:400;padding:0 30">
+                </button>
+                <md-menu #stopMenu="mdMenu">
+                    <bl-terminate-button [entity]="job" (click)="terminateJob()"></bl-terminate-button>
+                    <bl-delete-button [entity]="job" (click)="deleteJob()"></bl-delete-button>
+                    <bl-disable-button [job]="job" (click)="disableJob()"></bl-disable-button>
+                </md-menu>
+                <button md-raised-button [mdMenuTriggerFor]="settingsMenu" style="font-weight:400;padding:0 30">
                     <i class="fa fa-cog"></i> <i class="fa fa-caret-down"></i>
                 </button>
+                <md-menu #settingsMenu="mdMenu">
+                    <bl-add-task-button title="Add task" [job]="job" (click)="addTask()"></bl-add-task-button>
+                    <bl-enable-button [job]="job" (click)="enableJob()"></bl-enable-button>
+                    <bl-clone-button (click)="cloneJob()"></bl-clone-button>
+                </md-menu>
                 <!--<bl-add-task-button title="Add task" [job]="job" (click)="addTask()"></bl-add-task-button>
                 <bl-terminate-button [entity]="job" (click)="terminateJob()"></bl-terminate-button>
                 <bl-delete-button [entity]="job" (click)="deleteJob()"></bl-delete-button>

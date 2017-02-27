@@ -4,10 +4,10 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { autobind } from "core-decorators";
 import { Subscription } from "rxjs/Subscription";
 
-import { Job } from "app/models";
+import { Job, Task } from "app/models";
 import { JobDecorator } from "app/models/decorators";
-import { JobParams, JobService } from "app/services";
-import { RxEntityProxy } from "app/services/core";
+import { JobParams, JobService, TaskListParams, TaskParams, TaskService } from "app/services";
+import { RxEntityProxy, RxListProxy } from "app/services/core";
 import { SidebarManager } from "../../base/sidebar";
 import { TaskCreateBasicDialogComponent } from "../../task/action";
 
@@ -36,8 +36,15 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
     public job: Job;
     public decorator: JobDecorator;
     public data: RxEntityProxy<JobParams, Job>;
+    public taskData: RxListProxy<TaskListParams, Task>;
+
+    // Task counts
+    public activeTasks: number;
+    public runningTasks: number;
+    public completedTasks: number;
 
     private _paramsSubscriber: Subscription;
+    private _taskListOptions = { maxResults: 1000, select: "id,state" };
 
     constructor(
         private dialog: MdDialog,
@@ -45,6 +52,7 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
         private viewContainerRef: ViewContainerRef,
         private sidebarManager: SidebarManager,
         private jobService: JobService,
+        private taskService: TaskService,
         private router: Router) {
 
         this.data = this.jobService.get(null, {});
@@ -67,6 +75,41 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
             this.jobId = params["id"];
             this.data.params = { id: this.jobId };
             this.data.fetch();
+
+            // this.status = this.data.status;
+            // this.changeDetectorRef.detectChanges();
+            console.log("job id:", this.jobId);
+            this.taskData = this.taskService.list(this.jobId, this._taskListOptions);
+            this.taskData.setOptions(Object.assign({}, {}));
+            this.taskData.items.subscribe( (tasks) => {
+                this.completedTasks = 0;
+                this.runningTasks = 0;
+
+                let active = 0;
+                let running = 0;
+                let completed = 0;
+
+                tasks.forEach( (task) => {
+                    switch (task.state) {
+                        case "active":
+                            active++;
+                        break;
+                        case "running":
+                            running++;
+                        default:
+                            completed++;
+                        break;
+                    }
+                });
+
+                this.activeTasks = active;
+                this.runningTasks = running;
+                this.completedTasks = completed;
+
+                console.log("Task count: ", this.totalTasks, active, running, completed);
+            });
+
+            this.taskData.fetchAll();
         });
     }
 
@@ -80,6 +123,7 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
 
     @autobind()
     public refresh() {
+        this.taskData.fetchAll();
         return this.data.refresh();
     }
 
@@ -131,5 +175,23 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
         dialogRef.afterClosed().subscribe((obj) => {
             this.refresh();
         });
+    }
+
+    public get totalTasks(): number {
+        return this.activeTasks + this.runningTasks + this.completedTasks;
+    }
+
+    public get completedTasksPercent(): number {
+        const pct = this.completedTasks * 100 / this.totalTasks;
+        return pct;
+    }
+
+    public get runningTasksPercent(): number {
+        const pct = this.runningTasks * 100 / this.totalTasks;
+        return pct + this.completedTasksPercent;
+    }
+
+    public resizePool(){
+        console.log("resize pool!");
     }
 }
