@@ -68,20 +68,9 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
                 this.router.navigate(["/jobs"]);
             }
         });
-    }
 
-    public ngOnInit() {
-        this._paramsSubscriber = this.activatedRoute.params.subscribe((params) => {
-            this.jobId = params["id"];
-            this.data.params = { id: this.jobId };
-            this.data.fetch();
-
-            // this.status = this.data.status;
-            // this.changeDetectorRef.detectChanges();
-            console.log("job id:", this.jobId);
-            this.taskData = this.taskService.list(this.jobId, this._taskListOptions);
-            this.taskData.setOptions(Object.assign({}, {}));
-            this.taskData.items.subscribe( (tasks) => {
+        this.taskData = this.taskService.list(null, {});
+        this.taskData.items.subscribe( (tasks) => {
                 this.completedTasks = 0;
                 this.runningTasks = 0;
 
@@ -108,7 +97,19 @@ export class JobDetailsComponent implements OnInit, OnDestroy {
 
                 console.log("Task count: ", this.totalTasks, active, running, completed);
             });
+    }
 
+    public ngOnInit() {
+        this._paramsSubscriber = this.activatedRoute.params.subscribe((params) => {
+            this.jobId = params["id"];
+            this.data.params = { id: this.jobId };
+            this.data.fetch();
+
+            // this.status = this.data.status;
+            // this.changeDetectorRef.detectChanges();
+            console.log("job id:", this.jobId);
+            this.taskData = this.taskService.list(this.jobId, this._taskListOptions);
+            this.taskData.setOptions(Object.assign({}, {}));
             this.taskData.fetchAll();
         });
     }
